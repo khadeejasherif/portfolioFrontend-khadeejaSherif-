@@ -1,0 +1,33 @@
+<div class="w-full py-24 bg-[#0c0c0c] px-4 min-h-screen text-white">
+  <div class="max-w-6xl mx-auto">
+    
+    <div class="text-center mb-16">
+      <h2 class="relative z-10 text-4xl font-extrabold tracking-wider sm:text-5xl uppercase bg-gradient-to-r from-[#a855f7] via-[#c084fc] to-[#ec4899] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]">
+        Projects
+      </h2>
+      <p class="mt-4 max-w-2xl mx-auto text-neutral-400 text-sm md:text-base leading-relaxed">
+        A curated collection of production-ready applications, digital experiences, and open-source contributions.
+      </p>
+    </div>
+
+    @if (projects && projects.length > 0) {
+      <div class="swiper mySwiper !pb-16">
+        <div class="swiper-wrapper">
+          @for (proj of projects; track proj._id) {
+            <div class="swiper-slide h-auto flex">
+              <app-project [project]="proj" class="h-full block w-full"></app-project>
+            </div>
+          }
+        </div>
+        
+        <div class="swiper-pagination !bottom-2"></div>
+      </div>
+    } @else {
+      <div class="flex flex-col justify-center items-center py-20">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#a855f7] mb-4"></div>
+        <p class="text-neutral-400 text-sm">Loading projects...</p>
+      </div>
+    }
+
+  </div>
+</div>

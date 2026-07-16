@@ -1,0 +1,57 @@
+<div class="fixed top-0 left-0 w-full z-50 px-4 py-4 md:px-8 ">
+  
+  <nav class="max-w-6xl mx-auto bg-[#121212]/70 backdrop-blur-xl border border-white/5 rounded-2xl md:rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.5)] text-white transition-all duration-300">
+    <div class="px-6 md:px-8 flex justify-between items-center h-16">
+      
+      <div class="flex-shrink-0">
+        <a routerLink="/home" class="text-xl font-black tracking-widest bg-gradient-to-r from-[#a855f7] to-[#ec4899] bg-clip-text text-transparent hover:brightness-110 transition-all">
+          KHADEEJA
+        </a>
+      </div>
+
+      <div class="hidden md:flex space-x-8 items-center">
+        <a routerLink="/home" routerLinkActive="text-white bg-white/10" [routerLinkActiveOptions]="{exact: true}" class="px-4 py-2 rounded-full text-neutral-400 hover:text-white transition-all text-xs font-bold uppercase tracking-wider">Home</a>
+        <a routerLink="/skills" routerLinkActive="text-white bg-white/10" class="px-4 py-2 rounded-full text-neutral-400 hover:text-white transition-all text-xs font-bold uppercase tracking-wider">Skills</a>
+        <a routerLink="/projects" routerLinkActive="text-white bg-white/10" class="px-4 py-2 rounded-full text-neutral-400 hover:text-white transition-all text-xs font-bold uppercase tracking-wider">Projects</a>
+        <a routerLink="/services" routerLinkActive="text-white bg-white/10" class="px-4 py-2 rounded-full text-neutral-400 hover:text-white transition-all text-xs font-bold uppercase tracking-wider">Services</a>
+        <a routerLink="/contact" routerLinkActive="text-white bg-white/10" class="px-4 py-2 rounded-full text-neutral-400 hover:text-white transition-all text-xs font-bold uppercase tracking-wider">Contact</a>
+      </div>
+
+      <div class="hidden md:flex items-center">
+        <a routerLink="/login" routerLinkActive="text-[#a855f7] bg-[#a855f7]/10 border-[#a855f7]/30" class="p-2.5 text-neutral-400 hover:text-white hover:bg-white/5 border border-white/5 rounded-full transition-all duration-300" title="Login">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="md:hidden flex items-center gap-2">
+        <a routerLink="/login" routerLinkActive="text-[#a855f7]" class="p-2 text-neutral-400 hover:text-white" title="Login">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </a>
+        <button (click)="toggleMenu()" class="p-2 text-neutral-400 hover:text-white transition-colors">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            @if (!isMobileMenuOpen) {
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            } @else {
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            }
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    @if (isMobileMenuOpen) {
+      <div class="md:hidden px-6 pb-6 pt-2 space-y-2 bg-[#121212]/90 rounded-b-2xl border-t border-white/5">
+        <a routerLink="/home" (click)="isMobileMenuOpen = false" routerLinkActive="text-[#a855f7]" class="block py-2 text-neutral-300 hover:text-white text-sm font-semibold">Home</a>
+        <a routerLink="/skills" (click)="isMobileMenuOpen = false" routerLinkActive="text-[#a855f7]" class="block py-2 text-neutral-300 hover:text-white text-sm font-semibold">Skills</a>
+        <a routerLink="/projects" (click)="isMobileMenuOpen = false" routerLinkActive="text-[#a855f7]" class="block py-2 text-neutral-300 hover:text-white text-sm font-semibold">Projects</a>
+        <a routerLink="/services" (click)="isMobileMenuOpen = false" routerLinkActive="text-[#a855f7]" class="block py-2 text-neutral-300 hover:text-white text-sm font-semibold">Services</a>
+        <a routerLink="/contact" (click)="isMobileMenuOpen = false" routerLinkActive="text-[#a855f7]" class="block py-2 text-neutral-300 hover:text-white text-sm font-semibold">Contact</a>
+      </div>
+    }
+  </nav>
+</div>

@@ -1,0 +1,42 @@
+<section 
+  class="relative w-full h-screen flex flex-col justify-center items-center px-6 bg-[#0c0c0c] overflow-hidden text-white"
+  style="background-image: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 60%), linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px); background-size: 100% 100%, 60px 60px, 60px 60px;"
+>
+  
+  <div class="absolute top-1/4 left-1/4 w-[35%] h-[35%] rounded-full bg-[#a855f7]/5 blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[35%] h-[35%] rounded-full bg-[#ec4899]/4 blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-md w-full text-center z-10 space-y-8 select-none">
+    
+    <div class="relative">
+      <h1 class="text-[9rem] md:text-[12rem] font-black tracking-tighter leading-none bg-gradient-to-b from-white via-neutral-300 to-neutral-800 bg-clip-text text-transparent opacity-90">
+        404
+      </h1>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-bold tracking-[0.4em] text-[#c084fc] uppercase bg-[#121212]/80 px-4 py-1.5 rounded-full border border-[#a855f7]/20 backdrop-blur-sm shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+        Page Not Found
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-xl md:text-2xl font-bold tracking-tight text-neutral-100">
+        Lost in Cyberspace?
+      </h2>
+      <p class="text-neutral-400 text-sm font-light leading-relaxed max-w-xs mx-auto">
+        The route you are trying to access does not exist or has been relocated to another galaxy.
+      </p>
+    </div>
+
+    <div class="pt-4">
+      <button 
+        (click)="goHome()"
+        class="group inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#a855f7] to-[#ec4899] text-white font-bold text-xs uppercase tracking-widest hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(168,85,247,0.35)] active:scale-95 transition-all duration-300"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+        <span>Back to Safety</span>
+      </button>
+    </div>
+
+  </div>
+</section>
