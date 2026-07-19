@@ -1,3 +1,4 @@
+
 <div class="relative min-h-screen bg-[#0c0c0c] text-white flex overflow-hidden font-sans">
   <div class="absolute w-[600px] h-[600px] bg-[#a855f7]/5 blur-[160px] rounded-full -top-20 -left-20 pointer-events-none z-0"></div>
 
@@ -28,6 +29,9 @@
         <button (click)="setSection('services')" [class]="activeSection === 'services' ? 'bg-gradient-to-r from-[#a855f7]/20 to-[#ec4899]/10 border-[#a855f7]/40 text-white' : 'border-transparent text-neutral-400 hover:bg-white/[0.02] hover:text-white'" class="w-full flex items-center gap-3 px-4 py-3 border rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200">
           <span class="text-xs font-mono">#</span> <span *ngIf="isSidebarOpen">Services</span>
         </button>
+        <button (click)="setSection('cv')" [class]="activeSection === 'cv' ? 'bg-gradient-to-r from-[#a855f7]/20 to-[#ec4899]/10 border-[#a855f7]/40 text-white' : 'border-transparent text-neutral-400 hover:bg-white/[0.02] hover:text-white'" class="w-full flex items-center gap-3 px-4 py-3 border rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200">
+          <span class="text-xs font-mono">#</span> <span *ngIf="isSidebarOpen">CV</span>
+        </button>
       </nav>
     </div>
 
@@ -47,7 +51,7 @@
         (click)="openAddModal()" 
         class="px-5 py-2.5 bg-gradient-to-r from-[#a855f7] to-[#ec4899] text-white rounded-full font-bold text-xs uppercase tracking-wider hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
       >
-        + Add New {{ activeSection.substring(0, activeSection.length - 1) }}
+        + Add New {{ activeSection !== 'cv' ? activeSection.substring(0, activeSection.length - 1) : 'CV' }}
       </button>
     </header>
 
@@ -62,52 +66,23 @@
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase font-bold tracking-widest text-neutral-400 font-mono">
-                <th class="p-4 pl-6">
-                  {{ activeSection === 'skills' ? 'Skill Name' : 'Title Info' }}
-                </th>
-                @if (activeSection === 'skills') {
-                  <th class="p-4">Category / Group</th>
-                }
-                @if (activeSection === 'projects' || activeSection === 'services') {
-                  <th class="p-4">Description Preview</th>
-                }
+                <th class="p-4 pl-6">{{ activeSection === 'skills' ? 'Skill Name' : (activeSection === 'cv' ? 'File Name' : 'Title Info') }}</th>
+                @if (activeSection === 'skills') { <th class="p-4">Category</th> } 
+                @else if (activeSection === 'cv') { <th class="p-4">Preview</th> }
+                @if (activeSection === 'projects' || activeSection === 'services') { <th class="p-4">Description</th> }
                 <th class="p-4 pr-6 text-right">Actions</th>
               </tr>
             </thead>
             <tbody class="text-sm font-light">
-              @for (item of itemsList; track item._id || item.title || item.name) {
+              @for (item of itemsList; track item._id) {
                 <tr class="border-b border-white/[0.02] hover:bg-white/[0.01] transition-colors">
-                  <td class="p-4 pl-6 font-medium text-white">
-                    {{ activeSection === 'skills' ? item.name : item.title }}
-                  </td>
-                  
-                  @if (activeSection === 'skills') {
-                    <td class="p-4">
-                      <span class="px-2.5 py-1 rounded-md bg-white/5 text-[10px] font-mono border border-white/5 text-neutral-300">
-                        {{ item.category }}
-                      </span>
-                    </td>
-                  }
-
-                  @if (activeSection === 'projects' || activeSection === 'services') {
-                    <td class="p-4 text-neutral-400 max-w-xs truncate">
-                      {{ item.description || 'No description added.' }}
-                    </td>
-                  }
-
+                  <td class="p-4 pl-6 font-medium text-white">{{ activeSection === 'skills' ? item.name : item.title }}</td>
+                  @if (activeSection === 'skills') { <td class="p-4">{{ item.category }}</td> }
+                  @else if (activeSection === 'cv') { <td class="p-4"><a [href]="item.fileUrl" target="_blank" class="text-[#a855f7] hover:underline">View PDF</a></td> }
+                  @if (activeSection === 'projects' || activeSection === 'services') { <td class="p-4 text-neutral-400 truncate max-w-xs">{{ item.description }}</td> }
                   <td class="p-4 pr-6 text-right space-x-2">
-                    <button (click)="openEditModal(item)" class="p-2 text-neutral-400 hover:text-[#c084fc] bg-white/[0.02] border border-white/5 rounded-lg hover:border-[#a855f7]/30 transition-all">
-                      Edit
-                    </button>
-                    <button (click)="onDeleteItem(item._id)" class="p-2 text-red-500/60 hover:text-red-400 bg-red-500/5 border border-red-500/10 rounded-lg hover:border-red-500/30 transition-all">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              } @empty {
-                <tr>
-                  <td colspan="4" class="p-12 text-center text-xs font-mono text-neutral-500">
-                    [!] No database documents discovered inside this structural collection hierarchy.
+                    <button (click)="openEditModal(item)" class="p-2 text-neutral-400 hover:text-[#c084fc] bg-white/[0.02] border border-white/5 rounded-lg">Edit</button>
+                    @if (activeSection !== 'cv') { <button (click)="onDeleteItem(item._id)" class="p-2 text-red-500/60 hover:text-red-400 bg-red-500/5 border border-red-500/10 rounded-lg">Delete</button> }
                   </td>
                 </tr>
               }
@@ -119,136 +94,85 @@
   </main>
 
   @if (isModalOpen) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
-      <div class="w-full max-w-lg rounded-3xl border border-white/10 bg-[#161616] p-8 shadow-2xl max-h-[85vh] overflow-y-auto custom-scrollbar space-y-6">
-        
-        <div class="flex items-center justify-between border-b border-white/5 pb-4">
-          <h3 class="text-xl font-black uppercase tracking-tight text-white">
-            {{ isEditing ? 'Modify Existing' : 'Create New' }} {{ activeSection.substring(0, activeSection.length - 1) }}
-          </h3>
-          <button (click)="closeModal()" class="text-neutral-500 hover:text-white text-xl font-light">&times;</button>
-        </div>
-
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+      <div class="w-full max-w-lg rounded-3xl border border-white/10 bg-[#161616] p-8 max-h-[85vh] overflow-y-auto space-y-6">
+        <h3 class="text-xl font-black uppercase text-white border-b border-white/5 pb-4">{{ isEditing ? 'Modify' : 'Create' }} {{ activeSection }}</h3>
         <form (ngSubmit)="onSaveItem()" #itemForm="ngForm" class="space-y-4">
-          
-          @if (activeSection === 'projects') {
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                Project Title <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-              </label>
-              <input type="text" name="title" [(ngModel)]="currentItem.title" required placeholder="Project Name" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-            </div>
+  
+  @if (activeSection === 'projects') {
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Project Title <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <input type="text" name="title" [(ngModel)]="currentItem.title" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+    </div>
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Description <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <textarea name="description" rows="3" [(ngModel)]="currentItem.description" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm"></textarea>
+    </div>
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Image URL <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <input type="text" name="imageUrl" [(ngModel)]="currentItem.imageUrl" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="space-y-1.5">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Demo URL</label>
+        <input type="text" name="demoUrl" [(ngModel)]="currentItem.demoUrl" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">GitHub URL</label>
+        <input type="text" name="githubUrl" [(ngModel)]="currentItem.githubUrl" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <input type="checkbox" name="featured" [(ngModel)]="currentItem.featured" class="accent-[#a855f7]" />
+      <label class="text-xs text-neutral-300">Feature this project</label>
+    </div>
+  }
 
-            <div class="space-y-1.5">
-              <div class="flex justify-between items-center">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                  Project Description <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-                </label>
-                @if (descField.invalid && (descField.dirty || descField.touched)) {
-                  <span class="text-[9px] font-mono text-red-400 uppercase tracking-wider">[Minimum 50 characters required]</span>
-                }
-              </div>
-              <textarea name="description" rows="3" [(ngModel)]="currentItem.description" required minlength="100" #descField="ngModel" placeholder="Detailed summary context (at least 100 characters to align layout spacing nicely)..." [class.border-red-500/40]="descField.invalid && (descField.dirty || descField.touched)" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all resize-none"></textarea>
-            </div>
+  @if (activeSection === 'skills') {
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Skill Name <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <input type="text" name="name" [(ngModel)]="currentItem.name" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+    </div>
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Badge Image URL <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <input type="text" name="image_url" [(ngModel)]="currentItem.image_url" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+    </div>
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Category <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <select name="category" [(ngModel)]="currentItem.category" required class="w-full px-4 py-3 rounded-xl bg-[#161616] border border-white/5 text-sm">
+        <option value="Frontend">Frontend</option>
+        <option value="Backend">Backend</option>
+      </select>
+    </div>
+  }
 
-            <div class="space-y-1.5">
-              <div class="flex justify-between items-center">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                  Project Image URL <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-                </label>
-                @if (projImgField.invalid && (projImgField.dirty || projImgField.touched)) {
-                  <span class="text-[9px] font-mono text-red-400 uppercase tracking-wider">[Invalid image reference path URL]</span>
-                }
-              </div>
-              <input type="text" name="imageUrl" [(ngModel)]="currentItem.imageUrl" required pattern="https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg)(\?.*)?|^https:\/\/images\.unsplash\.com\/.*" #projImgField="ngModel" placeholder="https://images.unsplash.com/..." [class.border-red-500/40]="projImgField.invalid && (projImgField.dirty || projImgField.touched)" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-            </div>
+  @if (activeSection === 'services') {
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Service Name <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <input type="text" name="title" [(ngModel)]="currentItem.title" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+    </div>
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Icon Class <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <input type="text" name="icon" [(ngModel)]="currentItem.icon" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+    </div>
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Description <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <textarea name="description" rows="3" [(ngModel)]="currentItem.description" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm"></textarea>
+    </div>
+  }
 
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Tags (Separated by Comma)</label>
-              <input type="text" name="tags" [(ngModel)]="projectTagsInput" placeholder="Angular, Tailwind, Nodejs" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-            </div>
+  @if (activeSection === 'cv') {
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Select PDF File <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+      <input type="file" (change)="onFileSelected($event)" accept=".pdf" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+    </div>
+  }
 
-            <div class="grid grid-cols-2 gap-4">
-              <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Live Demo URL</label>
-                <input type="text" name="demoUrl" [(ngModel)]="currentItem.demoUrl" placeholder="https://..." class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-              </div>
-              <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">GitHub URL</label>
-                <input type="text" name="githubUrl" [(ngModel)]="currentItem.githubUrl" placeholder="https://..." class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-              </div>
-            </div>
-
-            <div class="flex items-center gap-3 pt-2">
-              <input type="checkbox" id="featured" name="featured" [(ngModel)]="currentItem.featured" class="accent-[#a855f7]" />
-              <label for="featured" class="text-xs uppercase tracking-wider text-neutral-300 select-none cursor-pointer">Feature this project on home landing screen</label>
-            </div>
-          }
-
-          @if (activeSection === 'skills') {
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                Skill Name <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-              </label>
-              <input type="text" name="name" [(ngModel)]="currentItem.name" required placeholder="e.g., TypeScript" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-            </div>
-
-            <div class="space-y-1.5">
-              <div class="flex justify-between items-center">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                  Skill Badge Image URL <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-                </label>
-                @if (skillImgField.invalid && (skillImgField.dirty || skillImgField.touched)) {
-                  <span class="text-[9px] font-mono text-red-400 uppercase tracking-wider">[Invalid asset link reference]</span>
-                }
-              </div>
-              <input type="text" name="image_url" [(ngModel)]="currentItem.image_url" required pattern="https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg)(\?.*)?|^https:\/\/images\.unsplash\.com\/.*" #skillImgField="ngModel" placeholder="https://img.icons8.com/..." [class.border-red-500/40]="skillImgField.invalid && (skillImgField.dirty || skillImgField.touched)" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-            </div>
-
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                Category Group <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-              </label>
-              <select name="category" [(ngModel)]="currentItem.category" required class="w-full px-4 py-3 rounded-xl bg-[#161616] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all">
-                <option value="Frontend">Frontend Development</option>
-                <option value="Backend">Backend / Server Engines</option>
-                <option value="Database">Database Clusters</option>
-                <option value="Tools">Development Tools & Control</option>
-                <option value="Other">Other Skills</option>
-              </select>
-            </div>
-          }
-
-          @if (activeSection === 'services') {
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                Service Name <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-              </label>
-              <input type="text" name="title" [(ngModel)]="currentItem.title" required placeholder="e.g., Web Development" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-            </div>
-
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                Service Icon Class / Name <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-              </label>
-              <input type="text" name="icon" [(ngModel)]="currentItem.icon" required placeholder="e.g., code-bracket" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all" />
-            </div>
-
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-                Service Description <span class="text-[#ec4899] font-sans ml-0.5">*</span>
-              </label>
-              <textarea name="description" rows="3"   minlength="20"  [(ngModel)]="currentItem.description" required placeholder="Describe what you offer[minLength=20]..." class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm font-light text-white focus:outline-none focus:border-[#a855f7]/50 transition-all resize-none"></textarea>
-            </div>
-          }
-
-          <div class="pt-4 flex justify-end gap-3 border-t border-white/5">
-            <button type="button" (click)="closeModal()" class="px-5 py-2.5 border border-white/5 hover:bg-white/5 rounded-full font-bold text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-all">Cancel</button>
-            <button type="submit" [disabled]="!itemForm.form.valid" class="px-6 py-2.5 bg-gradient-to-r from-[#a855f7] to-[#ec4899] text-white rounded-full font-bold text-xs uppercase tracking-wider hover:scale-[1.02] transition-all disabled:opacity-40">
-              Save Changes
-            </button>
-          </div>
-        </form>
+  <div class="pt-4 flex justify-end gap-3 border-t border-white/5">
+    <button type="button" (click)="closeModal()" class="px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-all">Cancel</button>
+    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-[#a855f7] to-[#ec4899] rounded-full font-bold text-xs uppercase tracking-wider text-white">Save Changes</button>
+  </div>
+</form>
       </div>
     </div>
   }

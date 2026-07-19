@@ -1,0 +1,17 @@
+/* Dashboard: Forced height, no external scroll */
+.dashboard-main {
+  height: 100%; /* Fills the space provided by the flex-grow parent */
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* All other pages: Natural flow */
+.normal-main {
+  width: 100%;
+  margin-top: 3.3rem;   /* mt-12 */
+  padding-bottom: 4rem; /* pb-16 */
+  /* Remove height/overflow properties here so it expands with content */
+}

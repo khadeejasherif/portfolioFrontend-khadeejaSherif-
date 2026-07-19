@@ -15,4 +15,17 @@ export class CvService {
   getLatestCv() {
     return this.http.get(this.apiUrl);
   }
+
+uploadCv(file: File, title?: string): Observable<{ message: string, cv: Icv }> {
+  const formData = new FormData();
+  
+  // Change 'file' to 'cvFile' to match your backend's upload.single('cvFile')
+  formData.append('cvFile', file); 
+  
+  if (title) {
+    formData.append('title', title);
+  }
+
+  return this.http.post<{ message: string, cv: Icv }>(this.apiUrl, formData);
+}
 }

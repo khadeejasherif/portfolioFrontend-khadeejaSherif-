@@ -7,7 +7,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], // تأكد من استيراد ReactiveFormsModule
+  imports: [CommonModule, ReactiveFormsModule], 
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })

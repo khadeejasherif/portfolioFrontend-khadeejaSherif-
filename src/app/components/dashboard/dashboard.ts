@@ -8,7 +8,7 @@ import { UserServices } from '../../services/user-services';
 import { ProjectService } from '../../services/project-service';
 import { SkillsService } from '../../services/skills-service';
 import { ServiceServices } from '../../services/service-services';
-import { Iprojects } from '../../models/iprojects';
+import { CvService } from '../../services/cv-service';
 
 type DashboardSection = 'projects' | 'cv' | 'skills' | 'services' | 'contact';
 
@@ -56,7 +56,8 @@ export class Dashboard implements OnInit {
   });
 
   constructor(
-    private authService: UserServices, 
+    private authService: UserServices,
+    private cvService: CvService,
     private projectService: ProjectService, 
     private skillService: SkillsService,     
     private serviceService: ServiceServices, 
@@ -67,6 +68,7 @@ export class Dashboard implements OnInit {
   ngOnInit(): void {
     this.loadAllDashboardData();
   }
+  selectedFile: File | null = null;
 
  
   private getEmptyFormModel() {
@@ -93,13 +95,15 @@ export class Dashboard implements OnInit {
     forkJoin({
       projectsData: this.projectService.getProjects(),
       servicesData: this.serviceService.getServices(),
-      skillsData: this.skillService.getSkills()
+      skillsData: this.skillService.getSkills(),
+      cvData: this.cvService.getLatestCv()
     }).subscribe({
       next: (res: any) => {
        
         this.databaseCollections['projects'] = res.projectsData?.projects || [];
         this.databaseCollections['services'] = res.servicesData?.Service || [];
         this.databaseCollections['skills'] = res.skillsData?.Skills || [];
+        this.databaseCollections['cv'] = res.cvData ? [res.cvData] : [];
         this.updateVisibleTable();
       },
       error: (err) => {
@@ -121,6 +125,17 @@ export class Dashboard implements OnInit {
     this.itemsList = this.databaseCollections[this.activeSection] || [];
     this.cdr.detectChanges();
   }
+
+// Add this to your Dashboard class
+onFileSelected(event: any): void {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
+    // Optional: Auto-fill the title if needed
+    this.currentItem.title = file.name;
+  }
+}
+
 
   // --- Modal Forms Operation Handles ---
   openAddModal(): void {
@@ -205,6 +220,27 @@ export class Dashboard implements OnInit {
         });
       }
     } 
+
+// Add this property to your class variables
+
+
+// Update the switch/if-else logic in onSaveItem()
+else if (this.activeSection === 'cv') {
+  if (!this.selectedFile) {
+    this.Toast.fire({ icon: 'error', title: 'Please select a file' });
+    return;
+  }
+  this.cvService.uploadCv(this.selectedFile, this.currentItem.title).subscribe({
+    next: () => {
+      this.Toast.fire({ icon: 'success', title: 'CV uploaded successfully' });
+      this.loadAllDashboardData();
+    },
+    error: (err) => console.error(err)
+  });
+}
+
+
+
     // --- SERVICES OPERATION HANDLER ---
     else if (this.activeSection === 'services') {
       if (this.isEditing) {
@@ -265,6 +301,15 @@ export class Dashboard implements OnInit {
             error: (err: any) => console.error(err)
           });
         }
+else if (this.activeSection === 'cv') {
+      // Since your backend overwrites instead of deletes, 
+      // you could simply inform the user or do nothing.
+      this.Toast.fire({ icon: 'info', title: 'CVs are replaced upon new upload, not deleted.' });
+    }
+
+
+
+
         else if (this.activeSection === 'services') {
           this.serviceService.deleteService(id).subscribe({
             next: () => {

@@ -173,20 +173,20 @@
     }
   }
 </style>
-
-<div class="min-h-screen bg-[#0c0c0c] text-white flex flex-col">
+<!-- Remove overflow-hidden here -->
+<!-- Use min-h-dvh so the app grows if content is long, but stretches if it's short -->
+<div class="min-h-dvh w-full bg-[#0c0c0c] text-white flex flex-col">
   
   @if (!router.url.includes('dashboard')) {
-   
     <app-navbar></app-navbar>
   }
 
-  <main class="flex-grow mt-12 md:mt-16 pb-16">
+  <!-- flex-grow-1 ensures this area takes all space between header and footer -->
+  <main class="flex-grow" [class.dashboard-main]="router.url.includes('dashboard')" [class.normal-main]="!router.url.includes('dashboard')">
     <router-outlet></router-outlet>
   </main>
 
   @if (!router.url.includes('dashboard')) {
     <app-footer></app-footer>
   }
-
 </div>
