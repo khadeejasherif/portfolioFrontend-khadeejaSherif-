@@ -47,15 +47,40 @@ export class Projects implements OnDestroy {
     });
   }
 
-  private initSwiper() {
+  // private initSwiper() {
+  //   if (this.swiperInstance) {
+  //     this.swiperInstance.destroy(true, true);
+  //   }
+
+  //   this.swiperInstance = new Swiper('.mySwiper', {
+  //     modules: [Pagination, Autoplay],
+  //     slidesPerView: 1,
+  //     spaceBetween: 32,
+  //     autoplay: {
+  //       delay: 4000,
+  //       disableOnInteraction: false
+  //     },
+  //     pagination: {
+  //       el: '.swiper-pagination',
+  //       clickable: true,
+  //     },
+  //     breakpoints: {
+  //       640: { slidesPerView: 2 },
+  //       1024: { slidesPerView: 3 }
+  //     }
+  //   });
+  // }
+private initSwiper() {
     if (this.swiperInstance) {
       this.swiperInstance.destroy(true, true);
     }
 
     this.swiperInstance = new Swiper('.mySwiper', {
       modules: [Pagination, Autoplay],
-      slidesPerView: 1,
-      spaceBetween: 32,
+      slidesPerView: 1, // Default for mobile
+      spaceBetween: 24,
+      observer: true,
+      observeParents: true,
       autoplay: {
         delay: 4000,
         disableOnInteraction: false
@@ -65,12 +90,25 @@ export class Projects implements OnDestroy {
         clickable: true,
       },
       breakpoints: {
-        640: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 }
+        // When window width is >= 0px (Phones)
+        0: {
+          slidesPerView: 1,
+          spaceBetween: 16
+        },
+        // When window width is >= 640px (Tablets)
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 24
+        },
+        // When window width is >= 1024px (Desktops)
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 32
+        }
       }
     });
   }
-
+  
   ngOnDestroy() {
     if (this.swiperInstance) {
       this.swiperInstance.destroy(true, true);
