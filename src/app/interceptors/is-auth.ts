@@ -6,7 +6,7 @@ export const isAuthInterceptor: HttpInterceptorFn = (req, next) => {
   if (token) {
     const newReq = req.clone({
       setHeaders: {
-        token: `Bearer ${token}`
+        token: ` ${token}`
       }
     });
     return next(newReq);
