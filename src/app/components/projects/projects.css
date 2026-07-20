@@ -15,17 +15,34 @@
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
 }
 
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+
 .mySwiper {
-  width: 100%;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  position: relative;
   overflow: hidden;
+  list-style: none;
+  padding: 0 0 4rem 0;
+  z-index: 1;
 }
 
 .mySwiper .swiper-wrapper {
-  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex !important;
+  transition-property: transform;
+  box-sizing: content-box;
 }
 
 .mySwiper .swiper-slide {
   flex-shrink: 0;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: auto;
+  position: relative;
+  transition-property: transform;
 }
