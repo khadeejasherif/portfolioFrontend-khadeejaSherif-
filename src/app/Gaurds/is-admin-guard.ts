@@ -23,6 +23,7 @@ export const isAdminGuard: CanActivateFn = (route, state) => {
   
   return profileCheck.pipe(
     map((res: any) => {
+      console.log("Guard Profile Response:", res);
       // res.user.role matches  backend req.user 
       if (res && res.user && res.user.role === 'admin') {
         return true; 
