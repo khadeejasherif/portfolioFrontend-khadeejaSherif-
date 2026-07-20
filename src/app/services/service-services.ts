@@ -8,7 +8,7 @@ import { Iservices } from '../models/iservices';
 })
 export class ServiceServices {
 
-  private apiUrl = 'http://localhost:3000/services'; 
+  private apiUrl = 'https://portfolio-backendend-khadeeja-sherif-khadeeja-sherifs-projects.vercel.app/services'; 
 
   constructor(private HttpClient: HttpClient) {
     

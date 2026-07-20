@@ -8,7 +8,7 @@ import { Iprojects } from '../models/iprojects';
 })
 export class ProjectService {
   // backend URL
-  private apiUrl = 'http://localhost:3000/projects'; 
+  private apiUrl = 'https://portfolio-backendend-khadeeja-sherif-khadeeja-sherifs-projects.vercel.app/projects'; 
 
   // Inject HttpClient via the constructor
   constructor(private http: HttpClient) {}

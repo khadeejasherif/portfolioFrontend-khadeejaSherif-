@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ContactServices {
-  private apiUrl = 'http://localhost:3000/contactUs';
+  private apiUrl = 'https://portfolio-backendend-khadeeja-sherif-khadeeja-sherifs-projects.vercel.app/contactUs';
 
 
 

@@ -8,7 +8,7 @@ import { Iuser } from '../models/iuser';
 })
 export class UserServices {
  
-  private baseUrl = 'http://localhost:3000/api/users';
+  private baseUrl = 'https://portfolio-backendend-khadeeja-sherif-khadeeja-sherifs-projects.vercel.app/api/users';
   constructor(private httpClient: HttpClient) {}
 
 getUsers() {

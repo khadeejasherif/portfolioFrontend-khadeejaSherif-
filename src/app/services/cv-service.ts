@@ -7,7 +7,7 @@ import { Icv } from '../models/icv';
 })
 export class CvService {
 
-  private apiUrl = 'http://localhost:3000/api/cv'; 
+  private apiUrl = 'https://portfolio-backendend-khadeeja-sherif-khadeeja-sherifs-projects.vercel.app/api/cv'; 
 
   constructor(private http: HttpClient) {}
 
