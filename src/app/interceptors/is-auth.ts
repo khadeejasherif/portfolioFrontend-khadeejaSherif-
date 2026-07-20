@@ -1,3 +1,20 @@
+// import { HttpInterceptorFn } from '@angular/common/http';
+
+// export const isAuthInterceptor: HttpInterceptorFn = (req, next) => {
+//   const token = localStorage.getItem('isAuth');
+
+//   if (token) {
+//     const newReq = req.clone({
+//       setHeaders: {
+//         token: `Bearer ${token}`
+//       }
+//     });
+//     return next(newReq);
+//   }
+
+//   return next(req);
+// };
+
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const isAuthInterceptor: HttpInterceptorFn = (req, next) => {
@@ -6,7 +23,7 @@ export const isAuthInterceptor: HttpInterceptorFn = (req, next) => {
   if (token) {
     const newReq = req.clone({
       setHeaders: {
-        token: `Bearer ${token}`
+        Authorization: `Bearer ${token}` 
       }
     });
     return next(newReq);
