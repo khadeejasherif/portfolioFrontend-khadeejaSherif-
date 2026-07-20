@@ -43,11 +43,7 @@ export class Login {
 
     this.UserService.userLogin(this.loginForm.value).subscribe({
       next: (res: any) => {
-        console.log("Raw login response object:", res); // Check the console: is it res.token or something else?
-  
-  const token = res.token || res.accessToken;
-  localStorage.setItem('isAuth', token);
-  console.log("Stored token value:", localStorage.getItem('isAuth'));
+       localStorage.setItem('isAuth', res.token);
         
         this.UserService.getProfile().subscribe({
           next: (profileRes: any) => {
