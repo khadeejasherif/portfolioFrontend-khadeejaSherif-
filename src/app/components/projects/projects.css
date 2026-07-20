@@ -14,3 +14,16 @@
   width: 32px !important; 
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
 }
+
+.swiper {
+  width: 100%;
+}
+
+.swiper-wrapper {
+  display: flex !important;
+}
+
+.swiper-slide {
+  flex-shrink: 0;
+  height: auto;
+}
