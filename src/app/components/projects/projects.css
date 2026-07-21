@@ -1,4 +1,4 @@
-/*  inactive pagination dots */
+/* inactive pagination dots */
 ::ng-deep .swiper-pagination-bullet {
   background: #404040 !important; /* neutral-600 */
   opacity: 1 !important;
@@ -8,14 +8,12 @@
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/*  the active dot */
+/* the active dot */
 ::ng-deep .swiper-pagination-bullet-active {
   background: linear-gradient(to right, #a855f7, #ec4899) !important; /* Purple to Pink gradient */
   width: 32px !important; 
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
 }
-
-
 
 .mySwiper {
   width: 100% !important;
@@ -40,7 +38,7 @@
 
 .mySwiper .swiper-slide {
   flex-shrink: 0;
-  width: 100% !important;
+  /* Removed width: 100% !important so Swiper's slidesPerView breakpoints can work */
   height: auto;
   position: relative;
   transition-property: transform;
