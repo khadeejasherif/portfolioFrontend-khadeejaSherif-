@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+@import 'swiper/css';
+@import 'swiper/css/pagination';
 
 ::-webkit-scrollbar {
   width: 8px; /* Width  vertical scrollbar */
