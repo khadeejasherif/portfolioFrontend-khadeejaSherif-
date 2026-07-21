@@ -2,17 +2,20 @@ import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core'; // 1. I
 import { Project } from "./project/project"
 import { Iprojects } from "../../models/iprojects";
 import { ProjectService } from "../../services/project-service"
-
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import Swiper from 'swiper';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [Project],
+  imports: [Project, CommonModule],
   templateUrl: './projects.html',
   styleUrls: ['./projects.css'],
 })
