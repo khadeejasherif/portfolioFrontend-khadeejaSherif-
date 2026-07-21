@@ -43,7 +43,7 @@ export class Login {
 
     this.UserService.userLogin(this.loginForm.value).subscribe({
       next: (res: any) => {
-        localStorage.setItem('isAuth', res.token);
+       localStorage.setItem('isAuth', res.token);
         
         this.UserService.getProfile().subscribe({
           next: (profileRes: any) => {
