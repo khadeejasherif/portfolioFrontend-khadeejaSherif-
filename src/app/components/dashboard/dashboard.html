@@ -99,34 +99,48 @@
         <h3 class="text-xl font-black uppercase text-white border-b border-white/5 pb-4">{{ isEditing ? 'Modify' : 'Create' }} {{ activeSection }}</h3>
         <form (ngSubmit)="onSaveItem()" #itemForm="ngForm" class="space-y-4">
   
-  @if (activeSection === 'projects') {
-    <div class="space-y-1.5">
-      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Project Title <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
-      <input type="text" name="title" [(ngModel)]="currentItem.title" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
-    </div>
-    <div class="space-y-1.5">
+@if (activeSection === 'projects') {
+  <div class="space-y-1.5">
+    <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Project Title <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+    <input type="text" name="title" [(ngModel)]="currentItem.title" placeholder="e.g. E-Commerce Dashboard" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+  </div>
+
+  <div class="space-y-1.5">
+    <div class="flex justify-between items-center">
       <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Description <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
-      <textarea name="description" rows="3" [(ngModel)]="currentItem.description" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm"></textarea>
+      <span class="text-[10px] font-mono text-neutral-500" [class.text-red-400]="currentItem.description && currentItem.description.length < 130">
+        {{ currentItem.description?.length || 0 }}/130 min chars
+      </span>
+    </div>
+    <textarea name="description" rows="3" [(ngModel)]="currentItem.description" minlength="130" placeholder="Provide a detailed overview of the project, features built, and technologies used (minimum 130 characters)..." required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm"></textarea>
+  </div>
+
+  <div class="space-y-1.5">
+    <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Tags (Comma separated) <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+    <input type="text" name="tags" [(ngModel)]="currentItem.tags" placeholder="e.g. Angular, TailwindCSS, Node.js, MongoDB" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+  </div>
+
+  <div class="space-y-1.5">
+    <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Image URL <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
+    <input type="text" name="imageUrl" [(ngModel)]="currentItem.imageUrl" placeholder="https://example.com/image.png" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="space-y-1.5">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Demo URL</label>
+      <input type="text" name="demoUrl" [(ngModel)]="currentItem.demoUrl" placeholder="https://my-demo.com" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
     </div>
     <div class="space-y-1.5">
-      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Image URL <span class="text-[#ec4899] font-sans ml-0.5">*</span></label>
-      <input type="text" name="imageUrl" [(ngModel)]="currentItem.imageUrl" required class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
+      <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">GitHub URL</label>
+      <input type="text" name="githubUrl" [(ngModel)]="currentItem.githubUrl" placeholder="https://github.com/user/repo" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
     </div>
-    <div class="grid grid-cols-2 gap-4">
-      <div class="space-y-1.5">
-        <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Demo URL</label>
-        <input type="text" name="demoUrl" [(ngModel)]="currentItem.demoUrl" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
-      </div>
-      <div class="space-y-1.5">
-        <label class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">GitHub URL</label>
-        <input type="text" name="githubUrl" [(ngModel)]="currentItem.githubUrl" class="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 text-sm" />
-      </div>
-    </div>
-    <div class="flex items-center gap-2">
-      <input type="checkbox" name="featured" [(ngModel)]="currentItem.featured" class="accent-[#a855f7]" />
-      <label class="text-xs text-neutral-300">Feature this project</label>
-    </div>
-  }
+  </div>
+
+  <div class="flex items-center gap-2">
+    <input type="checkbox" name="featured" [(ngModel)]="currentItem.featured" class="accent-[#a855f7]" />
+    <label class="text-xs text-neutral-300">Feature this project</label>
+  </div>
+}
 
   @if (activeSection === 'skills') {
     <div class="space-y-1.5">
